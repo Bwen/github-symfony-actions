@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+args="$@"
+docker-compose run --rm gh-actions bin/console $args

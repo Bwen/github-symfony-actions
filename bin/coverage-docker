@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+args="$*"
+docker-compose run --rm -e XDEBUG_MODE=coverage gh-actions bin/phpunit --coverage-html test-coverage $args

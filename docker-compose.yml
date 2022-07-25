@@ -1,0 +1,12 @@
+services:
+  gh-actions:
+    container_name: gh-actions
+    image: symfony-gh-actions:v0.1.0
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app:rw,cached
+    environment:
+      - PHP_IDE_CONFIG=serverName=cli
+      - XDEBUG_MODE=debug
