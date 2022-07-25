@@ -1,7 +1,7 @@
 services:
   gh-actions:
     container_name: gh-actions
-    image: symfony-gh-actions:v0.1.2
+    image: symfony-gh-actions:v0.1.3
     build:
       context: ./
       dockerfile: Dockerfile

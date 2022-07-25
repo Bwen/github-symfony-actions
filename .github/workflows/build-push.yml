@@ -30,4 +30,4 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_LOGIN }}/symfony-gh-actions:latest,${{ secrets.DOCKERHUB_LOGIN }}/symfony-gh-actions:${{ github.ref_name}}
           cache-from: type=registry,ref=${{ secrets.DOCKERHUB_LOGIN }}/symfony-gh-actions:buildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKERHUB_PASSWORD }}/symfony-gh-actions:buildcache,mode=max
+          cache-to: type=registry,ref=${{ secrets.DOCKERHUB_LOGIN }}/symfony-gh-actions:buildcache,mode=max
