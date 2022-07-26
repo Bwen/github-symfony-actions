@@ -11,6 +11,8 @@ RUN apk update \
     gnu-libiconv \
     openssh \
     gnupg \
+    docker \
+    docker-compose \
     ;
 
 RUN pecl install xdebug && docker-php-ext-enable xdebug
