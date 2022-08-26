@@ -23,6 +23,8 @@ RUN apk update \
 
 RUN docker-php-ext-install opcache
 
+RUN git config --global --add safe.directory /github/workspace
+
 COPY --from=composer:2.2 /usr/bin/composer /usr/local/bin/composer
 
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
