@@ -1,5 +1,9 @@
 FROM php:8.1-cli-alpine
 
+LABEL org.opencontainers.image.source=https://github.com/bwen/github-symfony-actions
+LABEL org.opencontainers.image.description="Github Symfony Actions Container"
+LABEL org.opencontainers.image.licenses=MIT
+
 RUN apk update \
     && apk add --no-cache \
     $PHPIZE_DEPS \
