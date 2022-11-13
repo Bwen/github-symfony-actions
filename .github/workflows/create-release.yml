@@ -23,7 +23,7 @@ jobs:
       - name: Get next semantic version
         id: get_tag
         run: |
-          semver=$(npx semantic-release -b main -p -d | grep 'The next release' | awk '{print $NF}')
+          semver=$(npx semantic-release -b master -p -d | grep 'The next release' | awk '{print $NF}')
           echo "tag_major=v"$(echo "$semver" | awk -F \. {'print $1'}) >> $GITHUB_OUTPUT
           echo "tag_minor=v"$(echo "$semver" | awk -F \. {'print $1"."$2'}) >> $GITHUB_OUTPUT
           echo "tag=v"$(echo "$semver") >> $GITHUB_OUTPUT
