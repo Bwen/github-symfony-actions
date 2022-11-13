@@ -26,7 +26,7 @@ jobs:
           echo "tag_major=v"$(echo "$semver" | awk -F \. {'print $1'}) >> $GITHUB_OUTPUT
           echo "tag_minor=v"$(echo "$semver" | awk -F \. {'print $1"."$2'}) >> $GITHUB_OUTPUT
           echo "tag=v"$(echo "$semver") >> $GITHUB_OUTPUT
-          echo "repo_owner=${OWNER,,}" >> $GITHUB_OUTPUT
+          echo "repo_owner=${env.OWNER,,}" >> $GITHUB_OUTPUT
         env:
           OWNER: '${{ github.repository_owner }}'
 
