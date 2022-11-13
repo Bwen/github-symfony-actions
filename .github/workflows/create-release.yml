@@ -23,15 +23,19 @@ jobs:
         id: get_tag
         run: |
           semver=$(npx semantic-release -b main -p -d | grep 'The next release' | awk '{print $NF}')
-          echo "::set-output name=tag_major::v"$(echo "$semver" | awk -F \. {'print $1'})
-          echo "::set-output name=tag_minor::v"$(echo "$semver" | awk -F \. {'print $1"."$2'})
-          echo "::set-output name=tag::v"$(echo "$semver")
+          echo "tag_major=v"$(echo "$semver" | awk -F \. {'print $1'}) >> $GITHUB_OUTPUT
+          echo "tag_minor=v"$(echo "$semver" | awk -F \. {'print $1"."$2'}) >> $GITHUB_OUTPUT
+          echo "tag=v"$(echo "$semver") >> $GITHUB_OUTPUT
+          echo "repo_owner=${OWNER,,}" >> $GITHUB_OUTPUT
+        env:
+          OWNER: '${{ github.repository_owner }}'
 
       - name: Debug tag name
         run: |
           echo ${{ steps.get_tag.outputs.tag_major }}
           echo ${{ steps.get_tag.outputs.tag_minor }}
           echo ${{ steps.get_tag.outputs.tag }}
+          echo ${{ steps.get_tag.outputs.repo_owner }}
 
   build-push:
     needs: semver
@@ -41,6 +45,7 @@ jobs:
       IMAGE_MAJOR_TAG: ${{ needs.semver.outputs.tag_major }}
       IMAGE_MINOR_TAG: ${{ needs.semver.outputs.tag_minor }}
       IMAGE_TAG: ${{ needs.semver.outputs.tag }}
+      REPO_OWNER: ${{ needs.semver.outputs.repo_owner }}
 
     steps:
       - name: Checkout Release Tag
@@ -64,12 +69,12 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/symfony-gh-actions:latest
-            ghcr.io/${{ github.repository_owner }}/symfony-gh-actions:${{ env.IMAGE_MAJOR_TAG }}
-            ghcr.io/${{ github.repository_owner }}/symfony-gh-actions:${{ env.IMAGE_MINOR_TAG }}
-            ghcr.io/${{ github.repository_owner }}/symfony-gh-actions:${{ env.IMAGE_TAG }}
-          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/symfony-gh-actions:buildcache
-          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/symfony-gh-actions:buildcache,mode=max
+            ghcr.io/${{ env.REPO_OWNER }}/symfony-gh-actions:latest
+            ghcr.io/${{ env.REPO_OWNER }}/symfony-gh-actions:${{ env.IMAGE_MAJOR_TAG }}
+            ghcr.io/${{ env.REPO_OWNER }}/symfony-gh-actions:${{ env.IMAGE_MINOR_TAG }}
+            ghcr.io/${{ env.REPO_OWNER }}/symfony-gh-actions:${{ env.IMAGE_TAG }}
+          cache-from: type=registry,ref=ghcr.io/${{ env.REPO_OWNER }}/symfony-gh-actions:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ env.REPO_OWNER }}/symfony-gh-actions:buildcache,mode=max
 
   create_release:
     needs: [semver, build-push]
