@@ -6,7 +6,7 @@ on:
 jobs:
 
   semver:
-    if: github.ref_name == 'main'
+    if: github.ref_name == 'master'
     runs-on: ubuntu-latest
 
     outputs:
