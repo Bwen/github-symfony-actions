@@ -13,6 +13,7 @@ jobs:
       tag_major: ${{ steps.get_tag.outputs.tag_major }}
       tag_minor: ${{ steps.get_tag.outputs.tag_minor }}
       tag: ${{ steps.get_tag.outputs.tag }}
+      repo_owner: ${{ steps.get_tag.outputs.repo_owner }}
 
     steps:
       - uses: actions/checkout@v3
